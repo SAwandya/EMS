@@ -36,7 +36,7 @@ const employeeSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  departmentId: {
+  departmentName: {
     type: String,
     required: true,
   },

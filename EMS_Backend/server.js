@@ -2,6 +2,8 @@ const { default: mongoose } = require("mongoose");
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const employee = require("./routes/employee");
+const department = require("./routes/department");
 
 mongoose
   .connect(
@@ -13,6 +15,10 @@ mongoose
 app.use(cors()); // Enable CORS for all routes
 
 app.use(express.json());
+
+app.use("/api/employee", employee);
+
+app.use("/api/department", department);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));

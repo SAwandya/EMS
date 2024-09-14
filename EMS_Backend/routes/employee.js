@@ -24,14 +24,11 @@ router.post("/", async (req, res) => {
     Address: req.body.Address,
     hireDate: req.body.hireDate,
     position: req.body.position,
-    department: {
-      _id: department._id,
-      name: department.name,
-    },
+    departmentId: department._id
   });
   employee = await employee.save();
 
   res.send(employee);
 });
 
-
+module.exports = router;

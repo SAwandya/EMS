@@ -17,3 +17,5 @@ router.post("/", async (req, res) => {
 
   res.send(department);
 });
+
+module.exports = router;

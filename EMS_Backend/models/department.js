@@ -8,7 +8,13 @@ const departmentSchema = new mongoose.Schema({
     minlength: 3,
     maxlength: 50,
   },
-
+  code: {
+    type: String,
+    required: true,
+    minlength: 3,
+    maxlength: 50,
+  },
+  
 });
 
 const Department = mongoose.model("Department", departmentSchema);
@@ -16,6 +22,7 @@ const Department = mongoose.model("Department", departmentSchema);
 function validateDepartment(department) {
   const schema = Joi.object({
     name: Joi.string().required().min(3).max(50),
+    code: Joi.string().required().min(3).max(50),
   });
 
   var result = schema.validate(department);
