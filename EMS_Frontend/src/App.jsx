@@ -1,12 +1,14 @@
 import "./App.css";
-import EmpTable from "./Components/EmpTable";
-import SideBar from "./Components/SideBar";
+import { RouterProvider } from "react-router-dom";
+import { CssBaseline } from "@mui/material";
+import router from "./routes";
+
 
 function App() {
   return (
     <>
-      
-      <SideBar/>
+      <CssBaseline />
+      <RouterProvider router={router} />
     </>
   );
 }

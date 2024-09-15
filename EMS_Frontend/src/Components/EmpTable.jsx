@@ -8,7 +8,8 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import useEmployee from "../hooks/useEmployee";
-import { Button, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const columns = [
   { id: "name", label: "Name", minWidth: 120 },
@@ -38,14 +39,14 @@ const columns = [
     id: "update",
     label: "Update",
     minWidth: 100,
-    align: "right",
+    align: " Middle",
     format: (value) => value.toFixed(2),
   },
   {
     id: "delete",
     label: "Delete",
     minWidth: 100,
-    align: "right",
+    align: "Right",
     format: (value) => value.toFixed(2),
   },
 ];
@@ -84,9 +85,35 @@ function createData(name, address, department, email, position) {
 
   console.log(rows);
 
+  const navigate = useNavigate();
+
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden", marginTop: '30px' }}>
-      <Typography sx={{ textAlign: 'left', margin: '27px', fontSize: '20px', fontWeight:'20' }} >All Employees</Typography>
+    <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "30px" }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        {" "}
+        <Typography
+          sx={{
+            textAlign: "left",
+            margin: "27px",
+            fontSize: "20px",
+            fontWeight: "20",
+          }}
+        >
+          All Employees
+        </Typography>
+        <Button
+          variant="contained"
+          sx={{
+            margin: "27px",
+            borderRadius: "8px",
+            backgroundColor: "#7350F5",
+          }}
+          onClick={() => navigate('/addemployee')}
+        >
+          Add employee
+        </Button>
+      </Box>
+
       <TableContainer sx={{ maxHeight: 420 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -117,6 +144,10 @@ function createData(name, address, department, email, position) {
                               <Button
                                 variant="contained"
                                 color="primary"
+                                sx={{
+                                  borderRadius: "8px",
+                                  backgroundColor: "#16C098",
+                                }}
                                 onClick={() =>
                                   console.log(`Update ${row.name}`)
                                 }
@@ -127,6 +158,11 @@ function createData(name, address, department, email, position) {
                               <Button
                                 variant="contained"
                                 color="secondary"
+                                sx={{
+                                  marginRight: "40px",
+                                  borderRadius: "8px",
+                                  backgroundColor: "#E73B3E",
+                                }}
                                 onClick={() =>
                                   console.log(`Delete ${row.name}`)
                                 }
@@ -141,9 +177,7 @@ function createData(name, address, department, email, position) {
                           </TableCell>
                         </>
                       );
-                    
                     })}
-                   
                   </TableRow>
                 );
               })}
