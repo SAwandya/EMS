@@ -107,7 +107,7 @@ const DepTable = () => {
   };
 
   const handleUpdate = (id) => {
-    navigate(`/updateemployee/${id}`);
+    navigate(`/updatedepartment/${id}`);
   };
 
   return (

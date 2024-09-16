@@ -4,6 +4,7 @@ import Content from "./Components/Content";
 import AddForm from "./Components/AddForm";
 import UpdateForm from "./Components/updateForm";
 import AddDepForm from "./Components/AddDepForm";
+import DeptUpdateForm from "./Components/DeptUpdateForm";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "/adddepartment",
         element: <AddDepForm />,
+      },
+      {
+        path: "/updatedepartment/:id",
+        element: <DeptUpdateForm />,
       },
     ],
   },
