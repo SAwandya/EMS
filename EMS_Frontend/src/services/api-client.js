@@ -20,6 +20,21 @@ class APIClient {
     
     return axiosInstance.get(this.endpoint).then((res) => res.data);
   };
+
+  delete = (params) => {
+    
+    return axiosInstance.delete(`${this.endpoint}/${params}`).then((res) => res.data);  
+  };
+
+  put = (config, params) => {
+    
+    return axiosInstance.put(`${this.endpoint}/${params}`, config).then((res) => res.data);
+  };
+
+  getOne = (params) => {
+    
+    return axiosInstance.get(`${this.endpoint}/${params}`).then((res) => res.data);
+  };
 }
 
 export { CanceledError, APIClient };

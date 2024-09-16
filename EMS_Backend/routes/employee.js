@@ -9,26 +9,67 @@ router.get("/", async (req, res) => {
   res.send(employee);
 });
 
+router.get("/:id", async (req, res) => {
+  const employee = await Employee.findById(req.params.id);
+
+  if (!employee)
+    return res
+      .status(404)
+      .send("The employee with the given ID was not found.");
+
+  res.send(employee);
+});
+
 router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
-
-  const department = await Department.findById(req.body.departmentId);
-  if (!department) return res.status(400).send("Invalid department.");
 
   let employee = new Employee({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
-    phone: req.body.phone,
-    Address: req.body.Address,
+    contact: req.body.contact,
+    address: req.body.address,
     hireDate: req.body.hireDate,
     position: req.body.position,
-    departmentId: department._id
+    departmentName: req.body.departmentName,
+    nic: req.body.nic,
   });
   employee = await employee.save();
 
   res.send(employee);
 });
 
+router.delete("/:id", async (req, res) => {
+  const employee = await Employee.findByIdAndDelete(req.params.id);
+
+  if (!employee)
+    return res
+      .status(404)
+      .send("The employee with the given ID was not found.");
+
+  res.send(employee);
+});
+
+router.put("/:id", async (req, res) => {
+  const { error } = validate(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  const employee = await Employee.findByIdAndUpdate(
+    req.params.id,
+    {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      contact: req.body.contact,
+      address: req.body.address,
+      hireDate: req.body.hireDate,
+      position: req.body.position,
+      departmentName: req.body.departmentName,
+      nic: req.body.nic,
+    },
+    { new: true }
+  );
+  res.send(employee);
+});
 module.exports = router;

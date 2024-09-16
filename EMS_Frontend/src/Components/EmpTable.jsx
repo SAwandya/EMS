@@ -7,9 +7,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import useEmployee from "../hooks/useEmployee";
 import { Box, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import employeeService from "../services/employeeService";
+import Swal from "sweetalert2";
+import useEmployees from "../hooks/useEmployees";
 
 const columns = [
   { id: "name", label: "Name", minWidth: 120 },
@@ -36,27 +38,40 @@ const columns = [
     format: (value) => value.toFixed(2),
   },
   {
-    id: "update",
+    id: "updateId",
     label: "Update",
     minWidth: 100,
-    align: " Middle",
+    align: "center",
     format: (value) => value.toFixed(2),
   },
   {
-    id: "delete",
+    id: "deleteId",
     label: "Delete",
     minWidth: 100,
-    align: "Right",
+    align: "center",
     format: (value) => value.toFixed(2),
   },
 ];
 
-
-function createData(name, address, department, email, position) {
-  return { name, address, department, email, position };
+function createData(
+  name,
+  address,
+  department,
+  email,
+  position,
+  updateId,
+  deleteId
+) {
+  return { name, address, department, email, position, updateId, deleteId };
 }
 
- const EmpTable = () => {
+const EmpTable = () => {
+  const { data, refetch } = useEmployees();
+
+  refetch();
+
+  console.log("Employee table data : ", data);
+
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -69,23 +84,53 @@ function createData(name, address, department, email, position) {
     setPage(0);
   };
 
-  const { data, error, refetch } = useEmployee();
-  
   const rows =
     data?.map((employee) =>
       createData(
         employee.firstName + " " + employee.lastName,
-        employee.Address,
+        employee.address,
         employee.departmentName,
         employee.email,
         employee.position,
-      
+        employee._id,
+        employee._id
       )
     ) || [];
 
-  console.log(rows);
-
   const navigate = useNavigate();
+
+  const handleDelete = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+
+        employeeService
+          .Delete(id)
+          .then((res) => {
+            refetch();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    });
+  };
+
+  const handleUpdate = (id) => {
+    navigate(`/updateemployee/${id}`);
+  };
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "30px" }}>
@@ -108,7 +153,7 @@ function createData(name, address, department, email, position) {
             borderRadius: "8px",
             backgroundColor: "#7350F5",
           }}
-          onClick={() => navigate('/addemployee')}
+          onClick={() => navigate("/addemployee")}
         >
           Add employee
         </Button>
@@ -134,13 +179,21 @@ function createData(name, address, department, email, position) {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow hover role="checkbox" tabIndex={-1}>
                     {columns?.map((column) => {
                       const value = row[column.id];
                       return (
                         <>
-                          <TableCell key={column.id} align={column.align}>
-                            {column.id === "update" ? (
+                          <TableCell
+                            sx={{
+                              whiteSpace: "normal", // Allow text to wrap
+                              maxWidth: "205px", // Set a fixed width
+                              wordWrap: "break-word", // Break long words
+                            }}
+                            key={column.id}
+                            align={column.align}
+                          >
+                            {column.id === "updateId" ? (
                               <Button
                                 variant="contained"
                                 color="primary"
@@ -148,13 +201,11 @@ function createData(name, address, department, email, position) {
                                   borderRadius: "8px",
                                   backgroundColor: "#16C098",
                                 }}
-                                onClick={() =>
-                                  console.log(`Update ${row.name}`)
-                                }
+                                onClick={() => handleUpdate(value)}
                               >
                                 Update
                               </Button>
-                            ) : column.id === "delete" ? (
+                            ) : column.id === "deleteId" ? (
                               <Button
                                 variant="contained"
                                 color="secondary"
@@ -163,9 +214,7 @@ function createData(name, address, department, email, position) {
                                   borderRadius: "8px",
                                   backgroundColor: "#E73B3E",
                                 }}
-                                onClick={() =>
-                                  console.log(`Delete ${row.name}`)
-                                }
+                                onClick={() => handleDelete(value)}
                               >
                                 Delete
                               </Button>
@@ -195,6 +244,6 @@ function createData(name, address, department, email, position) {
       />
     </Paper>
   );
-}
+};
 
 export default EmpTable;

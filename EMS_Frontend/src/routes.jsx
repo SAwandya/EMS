@@ -2,23 +2,24 @@ import { createBrowserRouter } from "react-router-dom";
 import Layout from "./pages/Layout";
 import Content from "./Components/Content";
 import AddForm from "./Components/AddForm";
+import UpdateForm from "./Components/updateForm";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout/>,
+    element: <Layout />,
     children: [
       {
         index: true,
-        element: (
-            <Content/>
-        ),
+        element: <Content />,
       },
       {
         path: "/addemployee",
-        element: (
-            <AddForm/>
-        ),
+        element: <AddForm />,
+      },
+      {
+        path: "/updateemployee/:id",
+        element: <UpdateForm />,
       },
     ],
   },

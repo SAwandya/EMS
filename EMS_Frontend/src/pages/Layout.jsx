@@ -7,7 +7,7 @@ import { RenderContentProvider } from "../Context/RenderContentContext";
 
 const Layout = () => {
   // State to manage the active content
-  const [activeContent, setActiveContent] = useState("Home");
+  const [activeContent, setActiveContent] = useState("Employee");
 
   // Function to render dynamic content based on button click
   const renderContent = () => {

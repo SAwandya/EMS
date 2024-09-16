@@ -16,7 +16,7 @@ app.use(cors()); // Enable CORS for all routes
 
 app.use(express.json());
 
-app.use("/api/employee", employee);
+app.use("/api/employees", employee);
 
 app.use("/api/department", department);
 

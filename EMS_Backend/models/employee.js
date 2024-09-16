@@ -18,11 +18,11 @@ const employeeSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  phone: {
+  contact: {
     type: Number,
     required: true,
   },
-  Address: {
+  address: {
     type: String,
     required: true,
     minlength: 3,
@@ -40,6 +40,10 @@ const employeeSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  nic: {
+    type: String,
+    required: true,
+  },
 });
 
 const Employee = mongoose.model("Employee", employeeSchema);
@@ -49,11 +53,12 @@ function validateEmployee(employee) {
     firstName: Joi.string().required().min(3).max(50),
     lastName: Joi.string().required().min(3).max(50),
     email: Joi.string().required(),
-    phone: Joi.string().required().min(10),
-    Address: Joi.string().required().min(3).max(50),
+    contact: Joi.number().required().min(10),
+    address: Joi.string().required().min(3).max(50),
     hireDate: Joi.string().required(),
     position: Joi.string().required(),
-    departmentId: Joi.string().required(),
+    departmentName: Joi.string().required(),
+    nic: Joi.string().required().min(10),
   });
 
   var result = schema.validate(employee);

@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Joi from "joi";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CloseIcon from "@mui/icons-material/Close";
 import { IconButton } from "@mui/material";
+import dayjs from "dayjs"; // Library for date formatting
+
 
 import {
   Box,
@@ -17,7 +19,8 @@ import {
   InputLabel,
 } from "@mui/material";
 import employeeService from "../services/employeeService";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import useEmployee from "../hooks/useEmployee";
 
 // Joi schema for validation
 const schema = Joi.object({
@@ -35,21 +38,38 @@ const schema = Joi.object({
   hireDate: Joi.date().required().label("Hire Date"),
 });
 
-const AddForm = () => {
-  // State for form fields and errors
+const UpdateForm = () => {
+  const { id } = useParams();
+
+  const { data, error, refetch } = useEmployee(id);
+
   const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
 
-  // Validate a single field based on Joi schema
+  useEffect(() => {
+    if (data) {
+      setFormData({
+        firstName: data.firstName || "",
+        lastName: data.lastName || "",
+        email: data.email || "",
+        contact: data.contact || "",
+        address: data.address || "",
+        position: data.position || "",
+        departmentName: data.departmentName || "",
+        nic: data.nic || "",
+        hireDate: dayjs(data.hireDate).format("YYYY-MM-DD") || "",
+      });
+    }
+  }, [data]);
+
   const validateField = (name, value) => {
     const fieldSchema = Joi.object({ [name]: schema.extract(name) });
     const { error } = fieldSchema.validate({ [name]: value });
     return error ? error.details[0].message : null;
   };
 
-  // Handle changes dynamically based on the field name
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -93,10 +113,10 @@ const AddForm = () => {
       console.log("Form Data: ", formData);
 
       employeeService
-        .Create(formData)
+        .Update(formData, id)
         .then((res) => {
-          console.log("Employee added successfully: ", res);
-          toast.success("Employee added successfully!", {
+          console.log("Employee Updated successfully: ", res);
+          toast.success("Employee Updated successfully!", {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -142,17 +162,19 @@ const AddForm = () => {
           marginTop: "30px",
         }}
       >
-        <Box sx={{ display: "flex", justifyContent: "space-between", marginBottom: '20px' }}>
-          <Typography
-            variant="h5"
-            sx={{ textAlign: "left" }}
-            gutterBottom
-          >
-            Add new employee
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginBottom: "20px",
+          }}
+        >
+          <Typography variant="h5" sx={{ textAlign: "left" }} gutterBottom>
+            Update employee
           </Typography>
-          <IconButton onClick={() => navigate("/")}>
-            <CloseIcon />
-          </IconButton>
+            <IconButton onClick={() => navigate('/')}>
+              <CloseIcon />
+            </IconButton>
         </Box>
         <form onSubmit={handleSubmit}>
           <Grid container spacing={4}>
@@ -176,7 +198,7 @@ const AddForm = () => {
                 margin="normal"
                 type="email"
                 name="email"
-                value={formData.email || ""}
+                value={formData.email}
                 onChange={handleChange}
                 error={!!errors.email}
                 helperText={errors.email}
@@ -205,7 +227,7 @@ const AddForm = () => {
                   value={formData.position || ""}
                   onChange={handleChange}
                 >
-                  <MenuItem value="">
+                  <MenuItem value={data?.position}>
                     <em>None</em>
                   </MenuItem>
                   <MenuItem value="Tech Lead">Tech Lead</MenuItem>
@@ -261,7 +283,6 @@ const AddForm = () => {
                 margin="normal"
                 type="date"
                 name="hireDate"
-                InputLabelProps={{ shrink: true }}
                 value={formData.hireDate || ""}
                 onChange={handleChange}
                 error={!!errors.hireDate}
@@ -307,7 +328,7 @@ const AddForm = () => {
                     marginTop: "2px",
                   }}
                 >
-                  Add
+                  Update
                 </Button>
               </Box>
             </Grid>
@@ -318,4 +339,4 @@ const AddForm = () => {
   );
 };
 
-export default AddForm;
+export default UpdateForm;
