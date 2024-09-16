@@ -4,10 +4,11 @@ import EmpTable from "../Components/EmpTable";
 import SideBar from "../Components/SideBar";
 import { Outlet } from "react-router-dom";
 import { RenderContentProvider } from "../Context/RenderContentContext";
+import DepTable from "../Components/DepTable";
 
 const Layout = () => {
   // State to manage the active content
-  const [activeContent, setActiveContent] = useState("Home");
+  const [activeContent, setActiveContent] = useState("Employee");
 
   // Function to render dynamic content based on button click
   const renderContent = () => {
@@ -15,7 +16,7 @@ const Layout = () => {
       case "Employee":
         return <EmpTable />;
       case "Department":
-        return <Typography variant="h4">Settings Page</Typography>;
+        return <DepTable/>;
       case "Profile":
         return <Typography variant="h4">Profile Page</Typography>;
       default:

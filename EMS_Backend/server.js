@@ -16,9 +16,9 @@ app.use(cors()); // Enable CORS for all routes
 
 app.use(express.json());
 
-app.use("/api/employee", employee);
+app.use("/api/employees", employee);
 
-app.use("/api/department", department);
+app.use("/api/departments", department);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));

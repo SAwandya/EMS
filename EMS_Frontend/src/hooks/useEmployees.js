@@ -3,10 +3,11 @@ import { APIClient } from "../services/api-client";
 
 const apiClient = new APIClient("/employees");
 
-const useEmployee = (id) =>
+const useEmployees = () =>
   useQuery({
-    queryKey: ["employees", id],
-    queryFn: () => apiClient.getOne(id),
+    queryKey: ["employees"],
+    queryFn: () => apiClient.getAll(),
+    staleTime: 24 * 60 * 60 * 1000, //24h
   });
 
-export default useEmployee;
+export default useEmployees;

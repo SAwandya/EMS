@@ -12,31 +12,13 @@ import { useNavigate } from "react-router-dom";
 import employeeService from "../services/employeeService";
 import Swal from "sweetalert2";
 import useEmployees from "../hooks/useEmployees";
+import useDepartments from "../hooks/useDepartments";
+import departmentSevice from "../services/departmentSevice";
 
 const columns = [
-  { id: "name", label: "Name", minWidth: 120 },
-  { id: "address", label: "Address", minWidth: 120 },
-  {
-    id: "department",
-    label: "Department",
-    minWidth: 120,
-    align: "right",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "email",
-    label: "Email",
-    minWidth: 120,
-    align: "right",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "position",
-    label: "Position",
-    minWidth: 120,
-    align: "right",
-    format: (value) => value.toFixed(2),
-  },
+  { id: "name", label: "Department Name", minWidth: 120 },
+  { id: "code", label: "Department code", minWidth: 120 },
+  { id: "manager", label: "Manager", minWidth: 120 },
   {
     id: "updateId",
     label: "Update",
@@ -55,22 +37,20 @@ const columns = [
 
 function createData(
   name,
-  address,
-  department,
-  email,
-  position,
+  code,
+  manager,
   updateId,
   deleteId
 ) {
-  return { name, address, department, email, position, updateId, deleteId };
+  return { name, code, manager, updateId, deleteId };
 }
 
-const EmpTable = () => {
-  const { data, refetch } = useEmployees();
+const DepTable = () => {
+  const { data, refetch } = useDepartments();
 
   refetch();
 
-  console.log("Employee table data : ", data);
+  console.log("Department table data : ", data);
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -85,15 +65,13 @@ const EmpTable = () => {
   };
 
   const rows =
-    data?.map((employee) =>
+    data?.map((dept) =>
       createData(
-        employee.firstName + " " + employee.lastName,
-        employee.address,
-        employee.departmentName,
-        employee.email,
-        employee.position,
-        employee._id,
-        employee._id
+        dept.name,
+        dept.code,
+        dept.manager,
+        dept._id,
+        dept._id
       )
     ) || [];
 
@@ -116,7 +94,7 @@ const EmpTable = () => {
           icon: "success",
         });
 
-        employeeService
+        departmentSevice
           .Delete(id)
           .then((res) => {
             refetch();
@@ -129,7 +107,7 @@ const EmpTable = () => {
   };
 
   const handleUpdate = (id) => {
-    navigate(`/updateemployee/${id}`);
+    navigate(`/updatedepartment/${id}`);
   };
 
   return (
@@ -153,9 +131,9 @@ const EmpTable = () => {
             borderRadius: "8px",
             backgroundColor: "#7350F5",
           }}
-          onClick={() => navigate("/addemployee")}
+          onClick={() => navigate("/adddepartment")}
         >
-          Add employee
+          Add Department
         </Button>
       </Box>
 
@@ -246,4 +224,4 @@ const EmpTable = () => {
   );
 };
 
-export default EmpTable;
+export default DepTable;

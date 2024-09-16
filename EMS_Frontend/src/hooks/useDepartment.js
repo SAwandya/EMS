@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { APIClient } from "../services/api-client";
 
-const apiClient = new APIClient("/employees");
+const apiClient = new APIClient("/departments");
 
-const useEmployee = (id) =>
+const useDepartment = (id) =>
   useQuery({
-    queryKey: ["employees", id],
+    queryKey: ["departments", id],
     queryFn: () => apiClient.getOne(id),
   });
 
-export default useEmployee;
+export default useDepartment;
