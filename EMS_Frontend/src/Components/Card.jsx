@@ -15,6 +15,8 @@ const Card = ({children, title, number}) => {
         backgroundColor: "#F0EEFA",
         borderRadius: "30px",
         display: "flex",
+        marginRight: "20px",
+        marginLeft: "20px",
       }}
     >
       {children}

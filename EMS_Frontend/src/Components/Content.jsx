@@ -15,33 +15,38 @@ const Content = () => {
   const { data: departmentData } = useDepartments();
 
   return (
-    <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
-      <Typography variant="h5" sx={{ textAlign: "left", marginBottom: "20px" }}>
-        Welcome to the Home Page
-      </Typography>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <Card title="Total number of employees" number={employeeData?.length}>
-          <BadgeTwoToneIcon
-            sx={{ fontSize: "70px", color: "#7350F5", margin: "20px" }}
-          />
-        </Card>
-        <Card
-          title="Total number of Departments"
-          number={departmentData?.length}
+    <>
+      <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+        <Typography
+          variant="h5"
+          sx={{ textAlign: "left", marginBottom: "20px" }}
         >
-          <AccountBalanceIcon
-            sx={{ fontSize: "70px", color: "#7350F5", margin: "20px" }}
-          />
-        </Card>
+          Welcome to the Home Page
+        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Card title="Total number of employees" number={employeeData?.length}>
+            <BadgeTwoToneIcon
+              sx={{ fontSize: "70px", color: "#7350F5", margin: "20px" }}
+            />
+          </Card>
+          <Card
+            title="Total number of Departments"
+            number={departmentData?.length}
+          >
+            <AccountBalanceIcon
+              sx={{ fontSize: "70px", color: "#7350F5", margin: "20px" }}
+            />
+          </Card>
+        </Box>
+        {renderContent()}
       </Box>
-      {renderContent()}
-    </Box>
+    </>
   );
 };
 

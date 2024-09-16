@@ -3,6 +3,7 @@ import Layout from "./pages/Layout";
 import Content from "./Components/Content";
 import AddForm from "./Components/AddForm";
 import UpdateForm from "./Components/updateForm";
+import AddDepForm from "./Components/AddDepForm";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: "/updateemployee/:id",
         element: <UpdateForm />,
+      },
+      {
+        path: "/adddepartment",
+        element: <AddDepForm />,
       },
     ],
   },
