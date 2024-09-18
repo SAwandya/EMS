@@ -5,6 +5,7 @@ import AddForm from "./Components/AddForm";
 import UpdateForm from "./Components/updateForm";
 import AddDepForm from "./Components/AddDepForm";
 import DeptUpdateForm from "./Components/DeptUpdateForm";
+import RegisterForm from "./pages/RegisterForm";
 
 const router = createBrowserRouter([
   {
@@ -34,10 +35,10 @@ const router = createBrowserRouter([
     ],
   },
 
-  // {
-  //   path: "/signup",
-  //   element: <SignupPage />,
-  // },
+  {
+    path: "/signup",
+    element: <RegisterForm />,
+  },
 
   // {
   //   path: "/signin",
