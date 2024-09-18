@@ -6,6 +6,8 @@ import UpdateForm from "./Components/updateForm";
 import AddDepForm from "./Components/AddDepForm";
 import DeptUpdateForm from "./Components/DeptUpdateForm";
 import RegisterForm from "./pages/RegisterForm";
+import SignInForm from "./pages/SignInForm";
+import ProtectedRoute from "./Components/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -14,36 +16,64 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Content />,
+        element: (
+          <ProtectedRoute>
+            <Content />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/addemployee",
-        element: <AddForm />,
+        element: (
+          <ProtectedRoute>
+            <AddForm />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/updateemployee/:id",
-        element: <UpdateForm />,
+        element: (
+          <ProtectedRoute>
+            <UpdateForm />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/adddepartment",
-        element: <AddDepForm />,
+        element: (
+          <ProtectedRoute>
+            <AddDepForm />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/updatedepartment/:id",
-        element: <DeptUpdateForm />,
+        element: (
+          <ProtectedRoute>
+            <DeptUpdateForm />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
 
   {
     path: "/signup",
-    element: <RegisterForm />,
+    element: (
+      <ProtectedRoute>
+        <RegisterForm />
+      </ProtectedRoute>
+    ),
   },
 
-  // {
-  //   path: "/signin",
-  //   element: <SignInPage />,
-  // },
+  {
+    path: "/signin",
+    element: (
+      <ProtectedRoute>
+        <SignInForm />
+      </ProtectedRoute>
+    ),
+  },
 ]);
 
 export default router;

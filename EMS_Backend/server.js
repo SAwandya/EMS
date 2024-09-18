@@ -5,6 +5,7 @@ const cors = require("cors");
 const employee = require("./routes/employee");
 const department = require("./routes/department");
 const admin = require("./routes/admin");
+const auth = require("./routes/auth");
 
 mongoose
   .connect(
@@ -22,6 +23,8 @@ app.use("/api/employees", employee);
 app.use("/api/departments", department);
 
 app.use("/api/admin", admin);
+
+app.use("/api/auth", auth)
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
