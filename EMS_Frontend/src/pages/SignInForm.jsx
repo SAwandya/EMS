@@ -4,15 +4,17 @@ import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CloseIcon from "@mui/icons-material/Close";
 import { IconButton } from "@mui/material";
+import Alert from "@mui/material/Alert";
 
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import authService from "../services/authService";
+import { useAuth } from "../Context/AuthContext";
 
 // Joi schema for validation
 const schema = Joi.object({
-  email: Joi.string().min(2).required().label("Email"),
-  password: Joi.string().min(2).required().label("Password"),
+  email: Joi.string().required().label("Email"),
+  password: Joi.string().required().label("Password"),
 });
 
 const SignInForm = () => {
@@ -59,6 +61,8 @@ const SignInForm = () => {
     return newErrors;
   };
 
+  const { authToken, login } = useAuth();
+
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -89,14 +93,16 @@ const SignInForm = () => {
             theme: "colored",
             transition: Bounce,
           });
-          localStorage.setItem("token", res);
+          login(res)
           navigate("/");
         })
         .catch((err) => {
-          console.log("Error Signin: ", err);
+          console.log("Error Signin: ", err.response.data);
+          setErrors(err.response.data);
         });
     }
   };
+
 
   return (
     <>
@@ -113,6 +119,7 @@ const SignInForm = () => {
         theme="dark"
         transition:Bounce
       />
+      {authToken && <Navigate to="/" replace={true} />}{" "}
       <Box
         sx={{
           flexGrow: 1,
@@ -122,26 +129,22 @@ const SignInForm = () => {
           padding: "60px",
           alignItems: "center",
           marginTop: "30px",
-          marginLeft: "200px",
-          marginTop: "50px",
+          maxWidth: "50%",
+          marginLeft: "25%",
         }}
       >
         <Box
           sx={{
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: "center",
             marginBottom: "20px",
           }}
         >
           <Typography variant="h5" sx={{ textAlign: "left" }} gutterBottom>
             Sign In
           </Typography>
-          <IconButton onClick={() => navigate("/")}>
-            <CloseIcon />
-          </IconButton>
         </Box>
         <form onSubmit={handleSubmit}>
-        
           <TextField
             fullWidth
             label="Email"
@@ -166,7 +169,17 @@ const SignInForm = () => {
             error={!!errors.password}
             helperText={errors.password}
           />
-
+          <Link to="/signup" style={{ textDecoration: "none" }}>
+            <Typography
+              variant="subtitle2"
+              sx={{ textAlign: "left", marginTop: "10px" }}
+            >
+              Don't have an account? Sign Up
+            </Typography>
+          </Link>
+          {errors && errors.length > 0 && (
+            <Alert severity="error">{errors}</Alert>
+          )}
           {/* Add Button */}
           <Box mt={2}>
             <Button

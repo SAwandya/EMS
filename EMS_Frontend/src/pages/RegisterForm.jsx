@@ -6,8 +6,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import { IconButton } from "@mui/material";
 
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import adminService from "../services/adminService";
+import { useAuth } from "../Context/AuthContext";
 
 // Joi schema for validation
 const schema = Joi.object({
@@ -20,6 +21,8 @@ const RegisterForm = () => {
   // State for form fields and errors
   const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({});
+
+  const {login, authToken} = useAuth();
 
   const navigate = useNavigate();
 
@@ -90,9 +93,8 @@ const RegisterForm = () => {
             theme: "colored",
             transition: Bounce,
           });
-
+          login(res);
           navigate("/");
-          localStorage.setItem("token", res);
         })
         .catch((err) => {
           console.log("Error registering admin: ", err);
@@ -115,6 +117,7 @@ const RegisterForm = () => {
         theme="dark"
         transition:Bounce
       />
+      {authToken && <Navigate to="/" replace={true} />}
       <Box
         sx={{
           flexGrow: 1,
@@ -124,23 +127,20 @@ const RegisterForm = () => {
           padding: "60px",
           alignItems: "center",
           marginTop: "30px",
-          marginLeft: "200px",
-          marginTop: "50px",
+          maxWidth: "50%",
+          marginLeft: "25%",
         }}
       >
         <Box
           sx={{
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: "center",
             marginBottom: "20px",
           }}
         >
-          <Typography variant="h5" sx={{ textAlign: "left" }} gutterBottom>
+          <Typography variant="h5" sx={{ textAlign: "center" }} gutterBottom>
             Sign Up
           </Typography>
-          <IconButton onClick={() => navigate("/")}>
-            <CloseIcon />
-          </IconButton>
         </Box>
         <form onSubmit={handleSubmit}>
           <TextField
@@ -178,6 +178,15 @@ const RegisterForm = () => {
             error={!!errors.password}
             helperText={errors.password}
           />
+
+          <Link to="/signin" style={{ textDecoration: "none" }}>
+            <Typography
+              variant="subtitle1"
+              sx={{ textAlign: "left", marginTop: "10px" }}
+            >
+              Already have an account? Sign In
+            </Typography>
+          </Link>
 
           {/* Add Button */}
           <Box mt={2}>

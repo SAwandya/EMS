@@ -60,18 +60,14 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: (
-      <ProtectedRoute>
         <RegisterForm />
-      </ProtectedRoute>
     ),
   },
 
   {
     path: "/signin",
     element: (
-      <ProtectedRoute>
         <SignInForm />
-      </ProtectedRoute>
     ),
   },
 ]);

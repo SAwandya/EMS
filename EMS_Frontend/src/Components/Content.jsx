@@ -6,6 +6,7 @@ import BadgeTwoToneIcon from "@mui/icons-material/BadgeTwoTone";
 import useEmployees from "../hooks/useEmployees";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import useDepartments from "../hooks/useDepartments";
+import { useAuth } from "../Context/AuthContext";
 
 const Content = () => {
   const renderContent = useRenderContent();
@@ -14,6 +15,10 @@ const Content = () => {
 
   const { data: departmentData } = useDepartments();
 
+  const { getCurrentUser } = useAuth();
+
+  console.log(getCurrentUser());
+
   return (
     <>
       <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
@@ -21,7 +26,7 @@ const Content = () => {
           variant="h5"
           sx={{ textAlign: "left", marginBottom: "20px" }}
         >
-          Welcome to the Home Page
+          Hi {getCurrentUser()?.name}!
         </Typography>
         <Box
           sx={{

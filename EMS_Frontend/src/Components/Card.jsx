@@ -34,6 +34,7 @@ const Card = ({children, title, number}) => {
         <Typography variant="h3" sx={{ marginTop: "7px", color: "#444b54" }}>
           {number}
         </Typography>
+        
       </Box>
     </Box>
   );
