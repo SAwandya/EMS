@@ -15,15 +15,13 @@ const Card = ({children, title, number}) => {
         backgroundColor: "#F0EEFA",
         borderRadius: "30px",
         display: "flex",
-        marginRight: "20px",
-        marginLeft: "20px",
       }}
     >
       {children}
-      <Box sx={{ marginTop: "19px" }}>
+      <Box sx={{ marginTop: "25px" }}>
         <Typography
           sx={{
-            fontWeight: "bold",
+            fontWeight: "550",
             fontSize: "20px",
             marginLeft: "5px",
             color: "#7f8c9b",
@@ -31,10 +29,16 @@ const Card = ({children, title, number}) => {
         >
           {title}
         </Typography>
-        <Typography variant="h3" sx={{ marginTop: "7px", color: "#444b54" }}>
+        <Typography
+          sx={{
+            marginTop: "-5px",
+            color: "#335887",
+            fontWeight: "100",
+            fontSize: "36px",
+          }}
+        >
           {number}
         </Typography>
-        
       </Box>
     </Box>
   );

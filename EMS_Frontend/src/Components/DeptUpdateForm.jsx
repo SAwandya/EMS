@@ -151,8 +151,9 @@ const DeptUpdateForm = () => {
           padding: "60px",
           alignItems: "center",
           marginTop: "30px",
-          marginLeft: "200px",
+          marginLeft: "110px",
           marginTop: "50px",
+          marginRight: "70px",
         }}
       >
         <Box
@@ -210,7 +211,7 @@ const DeptUpdateForm = () => {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              {empdata.map((emp) => (
+              {empdata?.map((emp) => (
                 <MenuItem value={emp.firstName + " " + emp.lastName}>
                   {emp.firstName + " " + emp.lastName}
                 </MenuItem>

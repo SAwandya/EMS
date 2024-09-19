@@ -23,7 +23,7 @@ const SideBar = ({ setActiveContent, activeContent }) => {
     >
       <Typography
         sx={{
-          marginTop: "20px",
+          marginTop: "29px",
           fontSize: "30px",
           fontWeight: "bold",
           color: "#381aa3",

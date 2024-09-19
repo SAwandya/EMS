@@ -114,7 +114,15 @@ const DepTable = () => {
   };
 
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "30px" }}>
+    <Paper
+      sx={{
+        width: "100%",
+        overflow: "hidden",
+        marginTop: "30px",
+        marginLeft: "10px",
+        backgroundColor: "#F5F4FA",
+      }}
+    >
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         {" "}
         <Typography
@@ -125,7 +133,7 @@ const DepTable = () => {
             fontWeight: "20",
           }}
         >
-          All Employees
+          All Departments
         </Typography>
         <Box sx={{ display: "flex" }}>
           <Search setQuery={setQuery} query={query} />

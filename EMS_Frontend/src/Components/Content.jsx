@@ -21,7 +21,7 @@ const Content = () => {
 
   return (
     <>
-      <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 0, marginLeft: '7px' }}>
         <Box sx={{ display: "flex" }}>
           {" "}
           <Typography
@@ -31,7 +31,8 @@ const Content = () => {
               fontWeight: "bold",
               marginRight: "10px",
               color: "#8072b3",
-              fontSize: "27px"
+              fontSize: "27px",
+              fontWeight: "500"
             }}
           >
             Welcome {getCurrentUser()?.name}!

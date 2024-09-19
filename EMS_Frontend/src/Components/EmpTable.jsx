@@ -142,8 +142,21 @@ const EmpTable = () => {
   };
 
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "30px" }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+    <Paper
+      sx={{
+        width: "105%",
+        overflow: "hidden",
+        marginTop: "30px",
+        backgroundColor: "#F5F4FA",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          backgroundColor: "#F5F4FA",
+        }}
+      >
         {" "}
         <Typography
           sx={{
@@ -184,6 +197,7 @@ const EmpTable = () => {
                     color: "#7b778c",
                     fontSize: "15px",
                     fontWeight: "bold",
+                    
                   }}
                 >
                   {column.label}

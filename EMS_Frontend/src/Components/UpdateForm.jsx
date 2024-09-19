@@ -171,6 +171,7 @@ const UpdateForm = () => {
           padding: "60px",
           alignItems: "center",
           marginTop: "30px",
+          marginLeft: "56px",
         }}
       >
         <Box
