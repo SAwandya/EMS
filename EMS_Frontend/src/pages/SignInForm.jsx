@@ -133,6 +133,25 @@ const SignInForm = () => {
           marginLeft: "25%",
         }}
       >
+        {" "}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: "20px",
+          }}
+        >
+          <Box
+            sx={{
+              backgroundImage: "url(../src/assets/login.png)",
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+              width: "50px",
+              height: "50px",
+            }}
+          ></Box>
+        </Box>
         <Box
           sx={{
             display: "flex",

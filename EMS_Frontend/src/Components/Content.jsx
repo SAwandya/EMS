@@ -22,12 +22,34 @@ const Content = () => {
   return (
     <>
       <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
-        <Typography
-          variant="h5"
-          sx={{ textAlign: "left", marginBottom: "20px" }}
-        >
-          Hi {getCurrentUser()?.name}!
-        </Typography>
+        <Box sx={{ display: "flex" }}>
+          {" "}
+          <Typography
+            sx={{
+              textAlign: "left",
+              marginBottom: "20px",
+              fontWeight: "bold",
+              marginRight: "10px",
+              color: "#8072b3",
+              fontSize: "27px"
+            }}
+          >
+            Welcome {getCurrentUser()?.name}!
+          </Typography>
+          <Box sx={{ marginTop: "-7px" }}>
+            <Box
+              sx={{
+                backgroundImage: "url(../src/assets/wave.png)",
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center",
+                width: "43px",
+                height: "43px",
+              }}
+            ></Box>
+          </Box>
+        </Box>
+
         <Box
           sx={{
             display: "flex",

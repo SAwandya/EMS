@@ -2,14 +2,15 @@ const express = require("express");
 const router = express.Router();
 const { Employee, validate } = require("../models/employee");
 const { Department } = require("../models/department");
+const auth = require("../middleware/auth");
 
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
   const employee = await Employee.find().sort("name");
 
   res.send(employee);
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", auth, async (req, res) => {
   const employee = await Employee.findById(req.params.id);
 
   if (!employee)
@@ -20,7 +21,7 @@ router.get("/:id", async (req, res) => {
   res.send(employee);
 });
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -40,7 +41,7 @@ router.post("/", async (req, res) => {
   res.send(employee);
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   const employee = await Employee.findByIdAndDelete(req.params.id);
 
   if (!employee)
@@ -51,7 +52,7 @@ router.delete("/:id", async (req, res) => {
   res.send(employee);
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", auth, async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 

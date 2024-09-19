@@ -19,11 +19,20 @@ import {
 import employeeService from "../services/employeeService";
 import { useNavigate } from "react-router-dom";
 import departmentSevice from "../services/departmentSevice";
+import useEmployees from "../hooks/useEmployees";
 
 // Joi schema for validation
 const schema = Joi.object({
   name: Joi.string().min(2).required().label("Department name"),
   code: Joi.string().min(2).required().label("Department code"),
+  code: Joi.string()
+    .pattern(/^[A-Za-z]{2}\d{4}$/)
+    .required()
+    .label("NIC")
+    .messages({
+      "string.pattern.base":
+        "Code must 2 characters followed by 'v' or 12 numbers",
+    }),
   manager: Joi.string().min(2).required().label("Manager"),
 });
 
@@ -33,6 +42,8 @@ const AddDeptForm = () => {
   const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
+
+  const {data} = useEmployees();
 
   // Validate a single field based on Joi schema
   const validateField = (name, value) => {
@@ -156,6 +167,12 @@ const AddDeptForm = () => {
             label="Department name"
             variant="outlined"
             margin="normal"
+            onKeyPress={(e) => {
+              const char = String.fromCharCode(e.keyCode || e.which);
+              if (!/^[a-zA-Z\s]*$/.test(char)) {
+                e.preventDefault(); // Prevents the user from entering numbers or special characters
+              }
+            }}
             name="name"
             value={formData.name || ""}
             onChange={handleChange}
@@ -167,6 +184,12 @@ const AddDeptForm = () => {
             label="Department code"
             variant="outlined"
             margin="normal"
+            onKeyPress={(e) => {
+              const char = String.fromCharCode(e.keyCode || e.which);
+              if (!/^[a-zA-Z0-9]*$/.test(char)) {
+                e.preventDefault(); // Prevents the user from entering numbers or special characters
+              }
+            }}
             type="text"
             name="code"
             value={formData.code || ""}
@@ -191,9 +214,11 @@ const AddDeptForm = () => {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              <MenuItem value="Tech Lead">manager 1</MenuItem>
-              <MenuItem value="Intern">manager 2</MenuItem>
-              <MenuItem value="ASC">manager 3</MenuItem>
+              {data?.map((employee) => (
+                <MenuItem value={employee.firstName + " " + employee.lastName}>
+                  {employee.firstName + " " + employee.lastName}
+                </MenuItem>
+              ))}
             </Select>
             {errors.manager && (
               <Typography color="error">{errors.manager}</Typography>

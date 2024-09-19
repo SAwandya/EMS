@@ -21,7 +21,14 @@ const SideBar = ({ setActiveContent, activeContent }) => {
       variant="permanent"
       anchor="left"
     >
-      <Typography sx={{ marginTop: "20px", fontSize: "30px" }}>
+      <Typography
+        sx={{
+          marginTop: "20px",
+          fontSize: "30px",
+          fontWeight: "bold",
+          color: "#381aa3",
+        }}
+      >
         Dashboard
       </Typography>
       <Box sx={{ p: 2, marginTop: "20px" }}>

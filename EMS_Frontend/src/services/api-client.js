@@ -12,27 +12,32 @@ class APIClient {
   }
 
   post = (config) => {
-    
+    axiosInstance.defaults.headers.common["x-auth-token"] =
+      localStorage.getItem("token");
     return axiosInstance.post(this.endpoint, config).then((res) => res.data);
   };
 
   getAll = () => {
-    
+    axiosInstance.defaults.headers.common["x-auth-token"] =
+      localStorage.getItem("token");
     return axiosInstance.get(this.endpoint).then((res) => res.data);
   };
 
   delete = (params) => {
-    
+    axiosInstance.defaults.headers.common["x-auth-token"] =
+      localStorage.getItem("token");
     return axiosInstance.delete(`${this.endpoint}/${params}`).then((res) => res.data);  
   };
 
   put = (config, params) => {
-    
+    axiosInstance.defaults.headers.common["x-auth-token"] =
+      localStorage.getItem("token");
     return axiosInstance.put(`${this.endpoint}/${params}`, config).then((res) => res.data);
   };
 
   getOne = (params) => {
-    
+    axiosInstance.defaults.headers.common["x-auth-token"] =
+      localStorage.getItem("token");
     return axiosInstance.get(`${this.endpoint}/${params}`).then((res) => res.data);
   };
 }
