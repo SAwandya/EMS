@@ -1,9 +1,12 @@
 import React from "react";
-import { Box, Drawer, Typography } from "@mui/material";
+import { Box, Button, Drawer, Typography } from "@mui/material";
 import SideBarButton from "./SideBarButton";
+import { useAuth } from "../Context/AuthContext";
 
 const SideBar = ({ setActiveContent, activeContent }) => {
   const drawerWidth = 240;
+
+  const {logout} = useAuth();
 
   return (
     <Drawer
@@ -27,6 +30,7 @@ const SideBar = ({ setActiveContent, activeContent }) => {
           setActiveContent={setActiveContent}
           title="Employee"
         />
+
         <SideBarButton
           activeContent={activeContent}
           setActiveContent={setActiveContent}
@@ -37,6 +41,21 @@ const SideBar = ({ setActiveContent, activeContent }) => {
           setActiveContent={setActiveContent}
           title="Profile"
         />
+
+        <Button
+          variant="contained"
+          sx={{
+            backgroundColor: "#8A6BFF",
+            width: "252px",
+            height: "30px",
+            marginTop: "310px",
+            borderRadius: "5px",
+          }}
+          onClick={logout}
+          fullWidth
+        >
+          Logout
+        </Button>
       </Box>
     </Drawer>
   );
