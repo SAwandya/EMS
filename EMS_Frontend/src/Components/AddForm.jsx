@@ -32,7 +32,14 @@ const schema = Joi.object({
   address: Joi.string().min(5).required().label("Address"),
   position: Joi.string().required().label("Position"),
   departmentName: Joi.string().required().label("departmentName"),
-  nic: Joi.string().min(10).required().label("NIC"),
+  nic: Joi.string().min(10).max(12).required().label("NIC"),
+  nic: Joi.string()
+    .pattern(/^\d{9}v$|^\d{12}$/)
+    .required()
+    .label("NIC")
+    .messages({
+      "string.pattern.base": "NIC must be either 9 numbers followed by 'v' or 12 numbers",
+    }),
   hireDate: Joi.date().required().label("Hire Date"),
 });
 
@@ -173,6 +180,12 @@ const AddForm = () => {
                 name="firstName"
                 value={formData.firstName || ""}
                 onChange={handleChange}
+                onKeyPress={(e) => {
+                  const char = String.fromCharCode(e.keyCode || e.which);
+                  if (!/^[a-zA-Z\s]*$/.test(char)) {
+                    e.preventDefault(); // Prevents the user from entering numbers or special characters
+                  }
+                }}
                 error={!!errors.firstName}
                 helperText={errors.firstName}
               />
@@ -184,6 +197,12 @@ const AddForm = () => {
                 type="email"
                 name="email"
                 value={formData.email || ""}
+                onKeyPress={(e) => {
+                  const char = String.fromCharCode(e.keyCode || e.which);
+                  if (!/^[a-zA-Z0-9.@s]*$/.test(char)) {
+                    e.preventDefault(); // Prevents the user from entering numbers or special characters
+                  }
+                }}
                 onChange={handleChange}
                 error={!!errors.email}
                 helperText={errors.email}
@@ -196,6 +215,12 @@ const AddForm = () => {
                 name="address"
                 value={formData.address || ""}
                 onChange={handleChange}
+                onKeyPress={(e) => {
+                  const char = String.fromCharCode(e.keyCode || e.which);
+                  if (!/^[a-zA-Z0-9/,\s]*$/.test(char)) {
+                    e.preventDefault(); // Prevents symbols other than letters, numbers, spaces, /, and ,
+                  }
+                }}
                 error={!!errors.address}
                 helperText={errors.address}
               />
@@ -224,6 +249,7 @@ const AddForm = () => {
                   <MenuItem value="Quality Assurance Engineer">
                     Quality Assurance Engineer
                   </MenuItem>
+                  <MenuItem value="Manager">Manager</MenuItem>
                 </Select>
                 {errors.position && (
                   <Typography color="error">{errors.position}</Typography>
@@ -235,6 +261,29 @@ const AddForm = () => {
                 variant="outlined"
                 margin="normal"
                 name="nic"
+                onKeyPress={(e) => {
+                  const value = formData.nic || "";
+                  const char = String.fromCharCode(e.keyCode || e.which);
+
+                  // Allow only numbers and "v" or "V"
+                  if (!/[0-9vV]/.test(char)) {
+                    e.preventDefault(); // Prevents any character other than numbers and "v"
+                  }
+
+                  // Prevent input if max length of 12 is reached, and only allow "v" or "V" in 10th position
+                  if (value.length >= 12 && char !== "Backspace") {
+                    e.preventDefault(); // Prevent further input if max length is reached
+                  }
+
+                  // Ensure "v" or "V" can only be entered at the 10th position if exactly 9 digits are present
+                  if (
+                    value.length === 9 &&
+                    char.toLowerCase() !== "v" &&
+                    !/[0-9]/.test(char)
+                  ) {
+                    e.preventDefault(); // Only allow "v" or "V" after 9 digits
+                  }
+                }}
                 value={formData.nic || ""}
                 onChange={handleChange}
                 error={!!errors.nic}
@@ -250,6 +299,12 @@ const AddForm = () => {
                 variant="outlined"
                 margin="normal"
                 name="lastName"
+                onKeyPress={(e) => {
+                  const char = String.fromCharCode(e.keyCode || e.which);
+                  if (!/^[a-zA-Z\s]*$/.test(char)) {
+                    e.preventDefault(); // Prevents the user from entering numbers or special characters
+                  }
+                }}
                 value={formData.lastName || ""}
                 onChange={handleChange}
                 error={!!errors.lastName}

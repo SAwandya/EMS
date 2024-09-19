@@ -3,7 +3,7 @@ import Joi from "joi";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CloseIcon from "@mui/icons-material/Close";
-import { IconButton } from "@mui/material";
+import { Alert, IconButton } from "@mui/material";
 
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { Link, Navigate, useNavigate } from "react-router-dom";
@@ -13,8 +13,23 @@ import { useAuth } from "../Context/AuthContext";
 // Joi schema for validation
 const schema = Joi.object({
   name: Joi.string().min(2).required().label("Name"),
-  email: Joi.string().min(2).required().label("Email"),
-  password: Joi.string().min(2).required().label("Password"),
+  email: Joi.string()
+    .email({ tlds: { allow: false } })
+    .required()
+    .label("Email"),
+  password: Joi.string()
+    .min(8)
+    .pattern(
+      new RegExp(
+        "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
+      )
+    )
+    .required()
+    .label("Password")
+    .messages({
+      "string.pattern.base":
+        "Password must be at least 8 characters long, and include at least one uppercase letter, one lowercase letter, one number, and one special character.",
+    }),
 });
 
 const RegisterForm = () => {
@@ -97,7 +112,7 @@ const RegisterForm = () => {
           navigate("/");
         })
         .catch((err) => {
-          console.log("Error registering admin: ", err);
+          setErrors(err.response.data);
         });
     }
   };
@@ -131,7 +146,13 @@ const RegisterForm = () => {
           marginLeft: "25%",
         }}
       >
-        <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: "20px",
+          }}
+        >
           <Box
             sx={{
               backgroundImage: "url(../src/assets/Register.png)",
@@ -160,6 +181,12 @@ const RegisterForm = () => {
             fullWidth
             label="Name"
             variant="outlined"
+            onKeyPress={(e) => {
+              const char = String.fromCharCode(e.keyCode || e.which);
+              if (!/^[a-zA-Z\s]*$/.test(char)) {
+                e.preventDefault(); // Prevents the user from entering numbers or special characters
+              }
+            }}
             margin="normal"
             name="name"
             value={formData.name || ""}
@@ -173,6 +200,12 @@ const RegisterForm = () => {
             variant="outlined"
             margin="normal"
             type="email"
+            onKeyPress={(e) => {
+              const char = String.fromCharCode(e.keyCode || e.which);
+              if (!/^[a-zA-Z0-9.@s]*$/.test(char)) {
+                e.preventDefault(); // Prevents the user from entering numbers or special characters
+              }
+            }}
             name="email"
             value={formData.email || ""}
             onChange={handleChange}
@@ -200,6 +233,10 @@ const RegisterForm = () => {
               Already have an account? Sign In
             </Typography>
           </Link>
+
+          {errors && errors.length > 0 && (
+            <Alert severity="error">{errors}</Alert>
+          )}
 
           {/* Add Button */}
           <Box mt={2}>

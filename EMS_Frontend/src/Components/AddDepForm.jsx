@@ -25,6 +25,14 @@ import useEmployees from "../hooks/useEmployees";
 const schema = Joi.object({
   name: Joi.string().min(2).required().label("Department name"),
   code: Joi.string().min(2).required().label("Department code"),
+  code: Joi.string()
+    .pattern(/^[A-Za-z]{2}\d{4}$/)
+    .required()
+    .label("NIC")
+    .messages({
+      "string.pattern.base":
+        "Code must 2 characters followed by 'v' or 12 numbers",
+    }),
   manager: Joi.string().min(2).required().label("Manager"),
 });
 
@@ -159,6 +167,12 @@ const AddDeptForm = () => {
             label="Department name"
             variant="outlined"
             margin="normal"
+            onKeyPress={(e) => {
+              const char = String.fromCharCode(e.keyCode || e.which);
+              if (!/^[a-zA-Z\s]*$/.test(char)) {
+                e.preventDefault(); // Prevents the user from entering numbers or special characters
+              }
+            }}
             name="name"
             value={formData.name || ""}
             onChange={handleChange}
@@ -170,6 +184,12 @@ const AddDeptForm = () => {
             label="Department code"
             variant="outlined"
             margin="normal"
+            onKeyPress={(e) => {
+              const char = String.fromCharCode(e.keyCode || e.which);
+              if (!/^[a-zA-Z0-9]*$/.test(char)) {
+                e.preventDefault(); // Prevents the user from entering numbers or special characters
+              }
+            }}
             type="text"
             name="code"
             value={formData.code || ""}
@@ -194,7 +214,7 @@ const AddDeptForm = () => {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              {data.map((employee) => (
+              {data?.map((employee) => (
                 <MenuItem value={employee.firstName + " " + employee.lastName}>
                   {employee.firstName + " " + employee.lastName}
                 </MenuItem>
