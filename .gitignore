@@ -1,4 +1,5 @@
 # Node.js
-node_modules/
+./EMS_Backend/node_modules/
+./EMS_Frontend/node_modules/
 npm-debug.log
 yarn-error.log

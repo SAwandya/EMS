@@ -17,7 +17,11 @@ import departmentSevice from "../services/departmentSevice";
 import Search from "./Search";
 
 const columns = [
-  { id: "name", label: "Department Name", minWidth: 120 },
+  {
+    id: "name",
+    label: "Department Name",
+    minWidth: 120,
+  },
   { id: "code", label: "Department code", minWidth: 120 },
   { id: "manager", label: "Manager", minWidth: 120 },
   {
@@ -36,13 +40,7 @@ const columns = [
   },
 ];
 
-function createData(
-  name,
-  code,
-  manager,
-  updateId,
-  deleteId
-) {
+function createData(name, code, manager, updateId, deleteId) {
   return { name, code, manager, updateId, deleteId };
 }
 
@@ -65,25 +63,19 @@ const DepTable = () => {
     setPage(0);
   };
 
-   const [query, setQuery] = React.useState("");
+  const [query, setQuery] = React.useState("");
 
-   const keys = ["name", "code", "manager"];
+  const keys = ["name", "code", "manager"];
 
-   const search = (data) => {
-     return data?.filter((item) =>
-       keys.some((key) => item[key].toLowerCase().includes(query))
-     );
-   };
+  const search = (data) => {
+    return data?.filter((item) =>
+      keys.some((key) => item[key].toLowerCase().includes(query))
+    );
+  };
 
   const rows =
     search(data)?.map((dept) =>
-      createData(
-        dept.name,
-        dept.code,
-        dept.manager,
-        dept._id,
-        dept._id
-      )
+      createData(dept.name, dept.code, dept.manager, dept._id, dept._id)
     ) || [];
 
   const navigate = useNavigate();
@@ -135,7 +127,7 @@ const DepTable = () => {
         >
           All Employees
         </Typography>
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: "flex" }}>
           <Search setQuery={setQuery} query={query} />
           <Button
             variant="contained"
@@ -159,7 +151,12 @@ const DepTable = () => {
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth }}
+                  style={{
+                    minWidth: column.minWidth,
+                    fontWeight: "bold",
+                    color: "#7b778c",
+                    fontSize: "15px",
+                  }}
                 >
                   {column.label}
                 </TableCell>
@@ -189,6 +186,7 @@ const DepTable = () => {
                               <Button
                                 variant="contained"
                                 color="primary"
+                                size="small"
                                 sx={{
                                   borderRadius: "8px",
                                   backgroundColor: "#16C098",
@@ -201,8 +199,8 @@ const DepTable = () => {
                               <Button
                                 variant="contained"
                                 color="secondary"
+                                size="small"
                                 sx={{
-                                  marginRight: "40px",
                                   borderRadius: "8px",
                                   backgroundColor: "#E73B3E",
                                 }}
