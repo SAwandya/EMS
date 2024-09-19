@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import employeeService from "../services/employeeService";
 import { useNavigate } from "react-router-dom";
+import useDepartments from "../hooks/useDepartments";
 
 // Joi schema for validation
 const schema = Joi.object({
@@ -41,6 +42,10 @@ const AddForm = () => {
   const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
+
+  const { data } = useDepartments();
+
+  console.log('departmet :', data);
 
   // Validate a single field based on Joi schema
   const validateField = (name, value) => {
@@ -142,12 +147,14 @@ const AddForm = () => {
           marginTop: "30px",
         }}
       >
-        <Box sx={{ display: "flex", justifyContent: "space-between", marginBottom: '20px' }}>
-          <Typography
-            variant="h5"
-            sx={{ textAlign: "left" }}
-            gutterBottom
-          >
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginBottom: "20px",
+          }}
+        >
+          <Typography variant="h5" sx={{ textAlign: "left" }} gutterBottom>
             Add new employee
           </Typography>
           <IconButton onClick={() => navigate("/")}>
@@ -208,9 +215,15 @@ const AddForm = () => {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value="Tech Lead">Tech Lead</MenuItem>
-                  <MenuItem value="Intern">Intern</MenuItem>
-                  <MenuItem value="ASC">ASC</MenuItem>
+                  <MenuItem value="Software Engineer">
+                    Software Engineer
+                  </MenuItem>
+                  <MenuItem value="Data Analyst">Data Analyst</MenuItem>
+                  <MenuItem value="Project Manager">Project Manager</MenuItem>
+                  <MenuItem value="HR Specialist">HR Specialist</MenuItem>
+                  <MenuItem value="Quality Assurance Engineer">
+                    Quality Assurance Engineer
+                  </MenuItem>
                 </Select>
                 {errors.position && (
                   <Typography color="error">{errors.position}</Typography>
@@ -283,9 +296,11 @@ const AddForm = () => {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value="HR">HR</MenuItem>
-                  <MenuItem value="IT">IT</MenuItem>
-                  <MenuItem value="R&D">R&D</MenuItem>
+                  {data?.map((department) => (
+                    <MenuItem value={department.name}>
+                      {department.name}
+                    </MenuItem>
+                  ))}
                 </Select>
                 {errors.departmentName && (
                   <Typography color="error">{errors.departmentName}</Typography>

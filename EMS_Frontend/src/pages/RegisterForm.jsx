@@ -131,6 +131,19 @@ const RegisterForm = () => {
           marginLeft: "25%",
         }}
       >
+        <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+          <Box
+            sx={{
+              backgroundImage: "url(../src/assets/Register.png)",
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+              width: "43px",
+              height: "43px",
+            }}
+          ></Box>
+        </Box>
+
         <Box
           sx={{
             display: "flex",

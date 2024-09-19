@@ -6,7 +6,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import { IconButton } from "@mui/material";
 import dayjs from "dayjs"; // Library for date formatting
 
-
 import {
   Box,
   Button,
@@ -21,6 +20,7 @@ import {
 import employeeService from "../services/employeeService";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import useEmployee from "../hooks/useEmployee";
+import useDepartments from "../hooks/useDepartments";
 
 // Joi schema for validation
 const schema = Joi.object({
@@ -44,7 +44,10 @@ const UpdateForm = () => {
   const { data, error, refetch } = useEmployee(id);
 
   const [formData, setFormData] = useState({});
+
   const [errors, setErrors] = useState({});
+
+  const { data: depdata } = useDepartments();
 
   const navigate = useNavigate();
 
@@ -172,9 +175,9 @@ const UpdateForm = () => {
           <Typography variant="h5" sx={{ textAlign: "left" }} gutterBottom>
             Update employee
           </Typography>
-            <IconButton onClick={() => navigate('/')}>
-              <CloseIcon />
-            </IconButton>
+          <IconButton onClick={() => navigate("/")}>
+            <CloseIcon />
+          </IconButton>
         </Box>
         <form onSubmit={handleSubmit}>
           <Grid container spacing={4}>
@@ -230,9 +233,12 @@ const UpdateForm = () => {
                   <MenuItem value={data?.position}>
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value="Tech Lead">Tech Lead</MenuItem>
-                  <MenuItem value="Intern">Intern</MenuItem>
-                  <MenuItem value="ASC">ASC</MenuItem>
+                  <MenuItem value="Data Analyst">Data Analyst</MenuItem>
+                  <MenuItem value="Project Manager">Project Manager</MenuItem>
+                  <MenuItem value="HR Specialist">HR Specialist</MenuItem>
+                  <MenuItem value="Quality Assurance Engineer">
+                    Quality Assurance Engineer
+                  </MenuItem>
                 </Select>
                 {errors.position && (
                   <Typography color="error">{errors.position}</Typography>
@@ -304,9 +310,9 @@ const UpdateForm = () => {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value="HR">HR</MenuItem>
-                  <MenuItem value="IT">IT</MenuItem>
-                  <MenuItem value="R&D">R&D</MenuItem>
+                  {depdata?.map((dep) => (
+                    <MenuItem value={dep.name}>{dep.name}</MenuItem>
+                  ))}
                 </Select>
                 {errors.departmentName && (
                   <Typography color="error">{errors.departmentName}</Typography>

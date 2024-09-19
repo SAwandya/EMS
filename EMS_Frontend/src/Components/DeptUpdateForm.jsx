@@ -20,6 +20,8 @@ import employeeService from "../services/employeeService";
 import { useNavigate, useParams } from "react-router-dom";
 import departmentSevice from "../services/departmentSevice";
 import useDepartment from "../hooks/useDepartment";
+import useDepartments from "../hooks/useDepartments";
+import useEmployees from "../hooks/useEmployees";
 
 // Joi schema for validation
 const schema = Joi.object({
@@ -38,6 +40,8 @@ const DeptUpdateForm = () => {
   const { data } = useDepartment(id);
 
   const navigate = useNavigate();
+
+  const { data:empdata } = useEmployees();
 
   useEffect(() => {
     if (data) {
@@ -159,7 +163,7 @@ const DeptUpdateForm = () => {
           }}
         >
           <Typography variant="h5" sx={{ textAlign: "left" }} gutterBottom>
-            Add new department
+            Update Department
           </Typography>
           <IconButton onClick={() => navigate("/")}>
             <CloseIcon />
@@ -206,9 +210,11 @@ const DeptUpdateForm = () => {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              <MenuItem value="manager 1">manager 1</MenuItem>
-              <MenuItem value="manager 2">manager 2</MenuItem>
-              <MenuItem value="manager 3">manager 3</MenuItem>
+              {empdata.map((emp) => (
+                <MenuItem value={emp.firstName + " " + emp.lastName}>
+                  {emp.firstName + " " + emp.lastName}
+                </MenuItem>
+              ))}
             </Select>
             {errors.manager && (
               <Typography color="error">{errors.manager}</Typography>
@@ -229,7 +235,7 @@ const DeptUpdateForm = () => {
                 marginTop: "2px",
               }}
             >
-              Add
+              Update
             </Button>
           </Box>
         </form>

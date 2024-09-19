@@ -19,6 +19,7 @@ import {
 import employeeService from "../services/employeeService";
 import { useNavigate } from "react-router-dom";
 import departmentSevice from "../services/departmentSevice";
+import useEmployees from "../hooks/useEmployees";
 
 // Joi schema for validation
 const schema = Joi.object({
@@ -33,6 +34,8 @@ const AddDeptForm = () => {
   const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
+
+  const {data} = useEmployees();
 
   // Validate a single field based on Joi schema
   const validateField = (name, value) => {
@@ -191,9 +194,11 @@ const AddDeptForm = () => {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              <MenuItem value="Tech Lead">manager 1</MenuItem>
-              <MenuItem value="Intern">manager 2</MenuItem>
-              <MenuItem value="ASC">manager 3</MenuItem>
+              {data.map((employee) => (
+                <MenuItem value={employee.firstName + " " + employee.lastName}>
+                  {employee.firstName + " " + employee.lastName}
+                </MenuItem>
+              ))}
             </Select>
             {errors.manager && (
               <Typography color="error">{errors.manager}</Typography>
