@@ -37,7 +37,7 @@ const Layout = () => {
       {/* Main Content Area */}
 
       <RenderContentProvider renderContent={renderContent}>
-        <div>
+        <div style={{ width: '100%' }}>
           {/* Your layout components like header, sidebar, etc. */}
           <Outlet />
         </div>

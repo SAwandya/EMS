@@ -142,8 +142,21 @@ const EmpTable = () => {
   };
 
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "30px" }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+    <Paper
+      sx={{
+        width: "105%",
+        overflow: "hidden",
+        marginTop: "30px",
+        backgroundColor: "#F5F4FA",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          backgroundColor: "#F5F4FA",
+        }}
+      >
         {" "}
         <Typography
           sx={{
@@ -179,7 +192,13 @@ const EmpTable = () => {
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth }}
+                  style={{
+                    minWidth: column.minWidth,
+                    color: "#7b778c",
+                    fontSize: "15px",
+                    fontWeight: "bold",
+                    
+                  }}
                 >
                   {column.label}
                 </TableCell>
@@ -209,6 +228,7 @@ const EmpTable = () => {
                               <Button
                                 variant="contained"
                                 color="primary"
+                                size="small"
                                 sx={{
                                   borderRadius: "8px",
                                   backgroundColor: "#16C098",
@@ -221,8 +241,8 @@ const EmpTable = () => {
                               <Button
                                 variant="contained"
                                 color="secondary"
+                                size="small"
                                 sx={{
-                                  marginRight: "40px",
                                   borderRadius: "8px",
                                   backgroundColor: "#E73B3E",
                                 }}
