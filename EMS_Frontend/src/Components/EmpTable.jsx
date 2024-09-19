@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import employeeService from "../services/employeeService";
 import Swal from "sweetalert2";
 import useEmployees from "../hooks/useEmployees";
+import Search from "./Search";
 
 const columns = [
   { id: "name", label: "Name", minWidth: 120 },
@@ -70,8 +71,6 @@ const EmpTable = () => {
 
   refetch();
 
-  console.log("Employee table data : ", data);
-
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -84,8 +83,18 @@ const EmpTable = () => {
     setPage(0);
   };
 
+  const [query, setQuery] = React.useState("");
+
+  const keys = ["firstName", "lastName", "nic", "position", "departmentName"];
+
+  const search = (data) => {
+    return data?.filter((item) =>
+      keys.some((key) => item[key].toLowerCase().includes(query))
+    );
+  };
+
   const rows =
-    data?.map((employee) =>
+    search(data)?.map((employee) =>
       createData(
         employee.firstName + " " + employee.lastName,
         employee.address,
@@ -146,17 +155,20 @@ const EmpTable = () => {
         >
           All Employees
         </Typography>
-        <Button
-          variant="contained"
-          sx={{
-            margin: "27px",
-            borderRadius: "8px",
-            backgroundColor: "#7350F5",
-          }}
-          onClick={() => navigate("/addemployee")}
-        >
-          Add employee
-        </Button>
+        <Box sx={{ display: "flex" }}>
+          <Search setQuery={setQuery} query={query} />
+          <Button
+            variant="contained"
+            sx={{
+              margin: "27px",
+              borderRadius: "8px",
+              backgroundColor: "#7350F5",
+            }}
+            onClick={() => navigate("/addemployee")}
+          >
+            Add employee
+          </Button>
+        </Box>
       </Box>
 
       <TableContainer sx={{ maxHeight: 420 }}>

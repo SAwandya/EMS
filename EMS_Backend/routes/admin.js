@@ -4,9 +4,9 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = require("config");
-// const auth = require("../middleware/auth");
+const auth = require("../middleware/auth");
 
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
   const admins = await Admin.find().sort("name");
 
   res.send(admins);
