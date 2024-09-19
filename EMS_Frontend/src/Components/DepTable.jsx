@@ -14,6 +14,7 @@ import Swal from "sweetalert2";
 import useEmployees from "../hooks/useEmployees";
 import useDepartments from "../hooks/useDepartments";
 import departmentSevice from "../services/departmentSevice";
+import Search from "./Search";
 
 const columns = [
   { id: "name", label: "Department Name", minWidth: 120 },
@@ -64,8 +65,18 @@ const DepTable = () => {
     setPage(0);
   };
 
+   const [query, setQuery] = React.useState("");
+
+   const keys = ["name", "code", "manager"];
+
+   const search = (data) => {
+     return data?.filter((item) =>
+       keys.some((key) => item[key].toLowerCase().includes(query))
+     );
+   };
+
   const rows =
-    data?.map((dept) =>
+    search(data)?.map((dept) =>
       createData(
         dept.name,
         dept.code,
@@ -124,17 +135,20 @@ const DepTable = () => {
         >
           All Employees
         </Typography>
-        <Button
-          variant="contained"
-          sx={{
-            margin: "27px",
-            borderRadius: "8px",
-            backgroundColor: "#7350F5",
-          }}
-          onClick={() => navigate("/adddepartment")}
-        >
-          Add Department
-        </Button>
+        <Box sx={{ display: 'flex' }}>
+          <Search setQuery={setQuery} query={query} />
+          <Button
+            variant="contained"
+            sx={{
+              margin: "27px",
+              borderRadius: "8px",
+              backgroundColor: "#7350F5",
+            }}
+            onClick={() => navigate("/adddepartment")}
+          >
+            Add Department
+          </Button>
+        </Box>
       </Box>
 
       <TableContainer sx={{ maxHeight: 420 }}>
