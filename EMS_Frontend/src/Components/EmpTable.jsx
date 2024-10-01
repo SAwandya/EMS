@@ -184,7 +184,7 @@ const EmpTable = () => {
         </Box>
       </Box>
 
-      <TableContainer sx={{ maxHeight: 420 }}>
+      <TableContainer sx={{ maxHeight: 400 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>

@@ -27,6 +27,13 @@ import useEmployees from "../hooks/useEmployees";
 const schema = Joi.object({
   name: Joi.string().min(2).required().label("Department name"),
   code: Joi.string().min(2).required().label("Department code"),
+  code: Joi.string()
+    .pattern(/^[A-Za-z]{2}\d{4}$/)
+    .required()
+    .label("Department code")
+    .messages({
+      "string.pattern.base": "Code must 2 characters followed by 4 numbers",
+    }),
   manager: Joi.string().min(2).required().label("Manager"),
 });
 

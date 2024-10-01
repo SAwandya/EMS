@@ -3,7 +3,7 @@ import Joi from "joi";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CloseIcon from "@mui/icons-material/Close";
-import { IconButton } from "@mui/material";
+import { Alert, IconButton } from "@mui/material";
 
 import {
   Box,
@@ -123,6 +123,7 @@ const AddForm = () => {
           navigate("/");
         })
         .catch((err) => {
+          setErrors(err.response.data);
           console.log("Error adding employee: ", err);
         });
     }
@@ -382,6 +383,11 @@ const AddForm = () => {
               </Box>
             </Grid>
           </Grid>
+          {errors && errors.length > 0 && (
+            <Alert severity="error">
+              {errors}
+            </Alert>
+          )}
         </form>
       </Box>
     </>

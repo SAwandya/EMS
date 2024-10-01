@@ -28,10 +28,9 @@ const schema = Joi.object({
   code: Joi.string()
     .pattern(/^[A-Za-z]{2}\d{4}$/)
     .required()
-    .label("NIC")
+    .label("Department code")
     .messages({
-      "string.pattern.base":
-        "Code must 2 characters followed by 'v' or 12 numbers",
+      "string.pattern.base": "Code must 2 characters followed by 4 numbers",
     }),
   manager: Joi.string().min(2).required().label("Manager"),
 });
@@ -143,8 +142,9 @@ const AddDeptForm = () => {
           padding: "60px",
           alignItems: "center",
           marginTop: "30px",
-          marginLeft: "200px",
+          marginLeft: "110px",
           marginTop: "50px",
+          marginRight: "70px",
         }}
       >
         <Box
@@ -187,7 +187,7 @@ const AddDeptForm = () => {
             onKeyPress={(e) => {
               const char = String.fromCharCode(e.keyCode || e.which);
               if (!/^[a-zA-Z0-9]*$/.test(char)) {
-                e.preventDefault(); // Prevents the user from entering numbers or special characters
+                e.preventDefault();
               }
             }}
             type="text"

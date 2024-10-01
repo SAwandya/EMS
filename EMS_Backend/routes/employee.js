@@ -25,6 +25,11 @@ router.post("/", auth, async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
+  const emp = await Employee.findOne({
+    $or: [{ email: req.body.email }, { nic: req.body.nic }],
+  });
+  if (emp) return res.status(400).send("Employee already registered");
+
   let employee = new Employee({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
